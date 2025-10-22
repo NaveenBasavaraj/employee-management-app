@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Polls • Employee Management{% endblock %}
+
+{% block content %}
+<div class="level">
+  <div class="level-left">
+    <h1 class="title is-4">Polls</h1>
+  </div>
+  <div class="level-right">
+    {% if request.user.is_staff %}
+      <a class="button is-primary" href="{% url 'poll_create' %}">
+        <span class="icon"><i class="fa-solid fa-plus"></i></span>
+        <span>Create Poll</span>
+      </a>
+    {% endif %}
+  </div>
+</div>
+
+{% if active_questions %}
+  <h2 class="title is-5">Active</h2>
+  <div class="columns is-multiline">
+    {% for q in active_questions %}
+      <div class="column is-6">
+        <div class="box">
+          <h3 class="title is-6">{{ q.title }}</h3>
+          <p class="mb-2">
+            <span class="tag is-success">Active</span>
+            {% if q.start_date %}<span class="tag is-light">Start: {{ q.start_date }}</span>{% endif %}
+            {% if q.end_date %}<span class="tag is-light">End: {{ q.end_date }}</span>{% endif %}
+          </p>
+          <a class="button is-link is-light" href="{% url 'poll_detail' q.pk %}">
+            <span class="icon"><i class="fa-solid fa-arrow-right"></i></span>
+            <span>View & Vote</span>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="notification is-info">No active polls at the moment.</p>
+{% endif %}
+
+{% if inactive_questions %}
+  <h2 class="title is-5 mt-4">Inactive</h2>
+  <div class="columns is-multiline">
+    {% for q in inactive_questions %}
+      <div class="column is-6">
+        <div class="box">
+          <h3 class="title is-6">{{ q.title }}</h3>
+          <p class="mb-2">
+            <span class="tag is-warning is-light">Inactive</span>
+            {% if q.start_date %}<span class="tag is-light">Start: {{ q.start_date }}</span>{% endif %}
+            {% if q.end_date %}<span class="tag is-light">End: {{ q.end_date }}</span>{% endif %}
+          </p>
+          <a class="button is-light" href="{% url 'poll_detail' q.pk %}">
+            <span class="icon"><i class="fa-solid fa-eye"></i></span>
+            <span>View</span>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

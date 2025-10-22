@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Profile • Employee Management{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-8">
+    <div class="box">
+      <h1 class="title is-4">Your Profile</h1>
+
+      <div class="columns">
+        <div class="column">
+          <p><strong>Username:</strong> {{ request.user.username }}</p>
+          <p><strong>Name:</strong> {{ request.user.first_name }} {{ request.user.last_name }}</p>
+          <p><strong>Email:</strong> {{ request.user.email }}</p>
+        </div>
+        <div class="column">
+          {% if profile %}
+            <p><strong>Designation:</strong> {{ profile.designation|default:"—" }}</p>
+            <p><strong>Salary:</strong> {{ profile.salary|default:"—" }}</p>
+          {% else %}
+            <p>No profile data yet.</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="buttons mt-3">
+        <a class="button is-primary" href="{% url 'profile_edit' %}">
+          <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+          <span>Edit Profile</span>
+        </a>
+        <a class="button is-light" href="{% url 'poll_list' %}">
+          <span class="icon"><i class="fa-solid fa-poll"></i></span>
+          <span>View Polls</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

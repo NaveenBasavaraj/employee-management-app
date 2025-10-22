@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Create Choice • Employee Management{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-7">
+    <div class="box">
+      <h1 class="title is-4">Create Choice</h1>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="field">
+          <label class="label" for="id_question">Question</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select id="id_question" name="question" required>
+                <option value="">-- Select a poll --</option>
+                {% for q in questions %}
+                  <option value="{{ q.id }}">{{ q.title }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="id_text">Choice text</label>
+          <div class="control">
+            <input id="id_text" name="text" class="input" type="text" placeholder="Enter choice text" required>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-primary" type="submit">Create</button>
+          </div>
+          <div class="control">
+            <a class="button is-light" href="{% url 'poll_list' %}">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Poll • {{ question.title }}{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-8">
+    <div class="box">
+      <h1 class="title is-4">Poll</h1>
+      <h2 class="subtitle">{{ question.title }}</h2>
+
+      <p class="mb-3">
+        {% if active %}
+          <span class="tag is-success">Active</span>
+        {% else %}
+          <span class="tag is-warning is-light">Inactive</span>
+        {% endif %}
+        {% if question.start_date %}<span class="tag is-light">Start: {{ question.start_date }}</span>{% endif %}
+        {% if question.end_date %}<span class="tag is-light">End: {{ question.end_date }}</span>{% endif %}
+      </p>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="content">
+          {% if choices %}
+            {% for c in choices %}
+              <label class="radio">
+                <input type="radio" name="choice" value="{{ c.id }}" {% if not active %}disabled{% endif %}>
+                {{ c.text }}
+              </label><br>
+            {% endfor %}
+          {% else %}
+            <p class="notification is-info">No choices have been added for this poll yet.</p>
+          {% endif %}
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-primary" type="submit" {% if not active or not choices %}disabled{% endif %}>Submit Vote</button>
+          </div>
+          <div class="control">
+            <a class="button is-light" href="{% url 'poll_list' %}">Back to Polls</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

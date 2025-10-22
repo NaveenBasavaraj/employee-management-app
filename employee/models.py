@@ -11,4 +11,4 @@ class Profile(models.Model):
         ordering = ('-salary',)
 
     def __str__(self):
-        return self.user.firstname
+        return self.user.first_name

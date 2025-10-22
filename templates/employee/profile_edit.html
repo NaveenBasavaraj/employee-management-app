@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile • Employee Management{% endblock %}
+
+{% block content %}
+<div class="columns is-centered">
+  <div class="column is-6">
+    <div class="box">
+      <h1 class="title is-4">Edit Profile</h1>
+
+      <form method="post" action="{% url 'profile_edit' %}">
+        {% csrf_token %}
+
+        <div class="field">
+          <label class="label" for="id_designation">Designation</label>
+          <div class="control">
+            <input id="id_designation" name="designation" value="{{ profile.designation }}" class="input" type="text" placeholder="e.g. Software Engineer" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="id_salary">Salary</label>
+          <div class="control">
+            <input id="id_salary" name="salary" value="{{ profile.salary }}" class="input" type="number" min="0" placeholder="e.g. 800000">
+          </div>
+          <p class="help">Enter an annual salary as a number.</p>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-primary" type="submit">Save</button>
+          </div>
+          <div class="control">
+            <a class="button is-light" href="{% url 'profile' %}">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
